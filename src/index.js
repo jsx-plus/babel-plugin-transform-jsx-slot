@@ -20,6 +20,7 @@ export default function({ types }) {
           const currentJSXElementPath = path.findParent(p => p.isJSXElement());
           const parentJSXElementPath = path.findParent(p => {
             return (
+              p !== currentJSXElementPath &&
               p.isJSXElement() &&
               !/^[a-z]/.test(p.node.openingElement.name.name)
             );
@@ -75,8 +76,9 @@ export default function({ types }) {
           );
 
           const programPath = path.findParent(p => p.isProgram());
-          if (!programPath.node.__import_slot__) {
-            programPath.node.body.unshift(
+          if (!programPath.__import_slot__) {
+            programPath.unshiftContainer(
+              'body',
               t.importDeclaration(
                 [
                   t.importSpecifier(
@@ -87,7 +89,7 @@ export default function({ types }) {
                 t.stringLiteral('babel-runtime-jsx-plus')
               )
             );
-            programPath.node.__import_slot__ = true;
+            programPath.__import_slot__ = true;
           }
 
         }
