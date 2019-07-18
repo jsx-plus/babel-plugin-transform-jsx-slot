@@ -1,15 +1,13 @@
-import * as t from '@babel/types';
-
 const DIRECTIVE = 'x-slot';
 
-function isSlotDirective(node) {
-  return (
-    t.isJSXNamespacedName(node) &&
-    t.isJSXIdentifier(node.namespace, { name: DIRECTIVE })
-  );
-}
+export default function({ types: t }) {
+  function isSlotDirective(node) {
+    return (
+      t.isJSXNamespacedName(node) &&
+      t.isJSXIdentifier(node.namespace, { name: DIRECTIVE })
+    );
+  }
 
-export default function({ types }) {
   return {
     visitor: {
       JSXAttribute(path) {
@@ -91,7 +89,6 @@ export default function({ types }) {
             );
             programPath.__import_slot__ = true;
           }
-
         }
       }
     }
