@@ -2,7 +2,7 @@ import { $slot } from "babel-runtime-jsx-plus";
 import { createElement } from 'react';
 
 function WaterFall() {
-  const $slots = (this && this.props) ? this.props.$slots : arguments[0].$slots;
+  const $slots = this && this.props ? this.props.$slots : arguments[0].$slots;
   const arr = ["hello", "world"];
   return <view>
       <$slot name="header" $slots={$slots} />
